@@ -1,0 +1,8 @@
+# python
+api/.env
+api/.venv/
+__pycache__/
+*.py[cod]
+
+# OS
+.DS_Store
