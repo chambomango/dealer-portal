@@ -1,13 +1,13 @@
 CREATE TABLE dim_regions (
     region_id SERIAL PRIMARY KEY,
-    region_code VARCHAR UNIQUE NOT NULL,
+    region_code VARCHAR(5) UNIQUE NOT NULL,
     region_name VARCHAR,
     territory VARCHAR
 );
 
 CREATE TABLE dim_dealers (
     dealer_id SERIAL PRIMARY KEY,
-    dealer_code VARCHAR UNIQUE NOT NULL,
+    dealer_code VARCHAR(10) UNIQUE NOT NULL,
     dealer_name VARCHAR,
     region_id INTEGER REFERENCES dim_regions(region_id),
     onboarded_date DATE,
