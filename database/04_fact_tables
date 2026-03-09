@@ -1,0 +1,44 @@
+-- Has 1 row per day/dealer/transaction type/customer type
+CREATE TABLE fact_dealer_daily (
+    id SERIAL PRIMARY KEY,
+    transaction_date DATE NOT NULL,
+    dealer_id INT NOT NULL REFERENCES dim_dealers(dealer_id),
+    region_id INT NOT NULL REFERENCES dim_regions(region_id),
+    transaction_type VARCHAR NOT NULL,
+    customer_type VARCHAR NOT NULL,
+    transaction_count INT NOT NULL CHECK (transaction_count > 0),
+    total_units INT NOT NULL CHECK (total_units > 0),
+    total_revenue NUMERIC NOT NULL CHECK (total_revenue > 0),
+    avg_transaction_value  NUMERIC NOT NULL CHECK (avg_transaction_value > 0),
+    CONSTRAINT UC_dealer_daily UNIQUE (transaction_date, dealer_id, transaction_type, customer_type)
+);
+
+INSERT INTO fact_dealer_daily (
+    transaction_date,
+    dealer_id,
+    region_id,
+    transaction_type,
+    customer_type,
+    transaction_count,
+    total_units,
+    total_revenue,
+    avg_transaction_value
+    )
+SELECT 
+    st.transaction_date,
+    dd.dealer_id AS dealer_id,
+    dd.region_id AS region_id,
+    st.transaction_type AS transaction_type,
+    st.customer_type AS customer_type,
+    COUNT(*) AS transaction_count,
+    SUM(st.quantity) AS total_units,
+    SUM(total_amount) AS total_revenue,
+    ROUND(AVG(total_amount), 2) AS avg_transaction_value
+FROM stg_transactions st
+JOIN dim_dealers dd ON st.dealer_code = dd.dealer_code
+GROUP BY
+    st.transaction_date, 
+    dd.dealer_id, 
+    dd.region_id, 
+    st.transaction_type, 
+    st.customer_type
