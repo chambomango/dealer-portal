@@ -1,5 +1,6 @@
 import KPICards from "@/components/kpiCards";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { RevenueChart, TrendPoint } from "@/components/revenueChart";
+import { Dealer, TopDealersTable } from "@/components/topDealersTable";
 
 interface OverviewData {
   total_transactions: number;
@@ -26,17 +27,19 @@ async function getTrends() {
 }
 
 async function getDealers() {
-  const res = await fetch(`${API_BASE}/api/dealers`, { cache: "no-store" });
+  const res = await fetch(`${API_BASE}/api/dealers?month=2025-02`, {
+    cache: "no-store",
+  });
   const data = await res.json();
   return data.dealers;
 }
 
 export default async function Dashboard() {
-  const [overview, trends, dealers] = await Promise.all([
+  const [overview, trends, dealers] = (await Promise.all([
     getOverview(),
     getTrends(),
     getDealers(),
-  ]);
+  ])) as [OverviewData, TrendPoint[], Dealer[]];
   const kpis = [
     {
       label: "Total Revenue",
@@ -51,9 +54,22 @@ export default async function Dashboard() {
   ];
 
   return (
-    <main className="min-h-screen p-8">
-      <h1 className="text-2xl font-bold mb-6">Dealer Performance Dashboard</h1>
-      <KPICards kpis={kpis} />
+    <main className="min-h-screen p-8 max-w-7xl mx-auto mt-20">
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        Telecom Company Performance Dashboard
+      </h1>
+      <section className="mt-20">
+        <h2>Key Performance Indicators</h2>
+        <KPICards kpis={kpis} />
+      </section>
+      <section className="mt-20">
+        <h2>Current Month Metrics</h2>
+        <TopDealersTable dealers={dealers} />
+      </section>
+      <section className="mt-20">
+        <h2>Yearly Metrics</h2>
+        <RevenueChart data={trends} />
+      </section>
     </main>
   );
 }
