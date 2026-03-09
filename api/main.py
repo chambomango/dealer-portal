@@ -27,5 +27,6 @@ async def health():
     return {"status": "healthy", "version": "0.1.0"}
 
 # Import routers
-from routers import metrics
+from routers import metrics, dealers
 app.include_router(metrics.router)
+app.include_router(dealers.router)
