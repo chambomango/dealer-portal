@@ -1,3 +1,6 @@
+import KPICards from "@/components/kpiCards";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 interface OverviewData {
   total_transactions: number;
   total_revenue: number;
@@ -5,44 +8,52 @@ interface OverviewData {
   avg_transaction_value: number;
 }
 
+const API_BASE = process.env.DEALER_PORTAL_API_BASE;
+
 async function getOverview(): Promise<OverviewData> {
-  const res = await fetch("http://localhost:8000/api/metrics/overview", {
+  const res = await fetch(`${API_BASE}/api/metrics/overview`, {
     cache: "no-store",
   });
   return res.json();
 }
 
-export default async function Dashboard() {
-  const data = await getOverview();
+async function getTrends() {
+  const res = await fetch(`${API_BASE}/api/metrics/trends`, {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  return data.trends;
+}
 
+async function getDealers() {
+  const res = await fetch(`${API_BASE}/api/dealers`, { cache: "no-store" });
+  const data = await res.json();
+  return data.dealers;
+}
+
+export default async function Dashboard() {
+  const [overview, trends, dealers] = await Promise.all([
+    getOverview(),
+    getTrends(),
+    getDealers(),
+  ]);
   const kpis = [
     {
       label: "Total Revenue",
-      value: `$${data.total_revenue.toLocaleString()}`,
+      value: `$${overview.total_revenue.toLocaleString()}`,
     },
-    { label: "Active Dealers", value: data.active_dealers },
-    { label: "Transactions", value: data.total_transactions },
+    { label: "Active Dealers", value: overview.active_dealers },
+    { label: "Transactions", value: overview.total_transactions },
     {
       label: "Avg Transaction",
-      value: `$${data.avg_transaction_value.toLocaleString()}`,
+      value: `$${overview.avg_transaction_value.toLocaleString()}`,
     },
   ];
 
   return (
-    <main className="min-h-screen bg-gray-50 p-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">
-        Dealer Performance Dashboard
-      </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {kpis.map((kpi) => (
-          <div key={kpi.label} className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-500">{kpi.label}</p>
-            <p className="text-2xl font-semibold text-gray-900 mt-1">
-              {kpi.value}
-            </p>
-          </div>
-        ))}
-      </div>
+    <main className="min-h-screen p-8">
+      <h1 className="text-2xl font-bold mb-6">Dealer Performance Dashboard</h1>
+      <KPICards kpis={kpis} />
     </main>
   );
 }

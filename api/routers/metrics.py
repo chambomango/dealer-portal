@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter
 from services.database import get_pool
 
 router = APIRouter(prefix="/api/metrics", tags=["metrics"])
