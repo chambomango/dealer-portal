@@ -8,24 +8,22 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TrendPoint } from "@/types";
 
 const chartConfig = {
-  total_revenue: {
-    label: "Revenue",
-    color: "var(--chart-1)",
+  avg_transaction_value: {
+    label: "Price",
+    color: "var(--chart-3)",
   },
 } satisfies ChartConfig;
 
-export interface TrendPoint {
-  sales_month: string;
-  total_revenue: number;
-}
-
-export function RevenueChart({ data }: { data: TrendPoint[] }) {
+export function AvgTransactionValueChart({ data }: { data: TrendPoint[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-medium">Monthly Revenue</CardTitle>
+        <CardTitle className="text-lg font-medium">
+          Avg Transaction Price
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-70">
@@ -43,14 +41,18 @@ export function RevenueChart({ data }: { data: TrendPoint[] }) {
                 tickLine={false}
                 axisLine={false}
                 domain={[(dataMin: number) => dataMin * 0.95, "auto"]}
-                tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
-                label={{ value: "Revenue", angle: -90, position: "insideLeft" }}
+                tickFormatter={(value) => `$${value.toFixed(0)}`}
+                label={{
+                  value: "Value ($)",
+                  angle: -90,
+                  position: "insideLeft",
+                }}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Line
                 type="monotone"
-                dataKey="total_revenue"
-                stroke="var(--color-total_revenue)"
+                dataKey="avg_transaction_value"
+                stroke="var(--color-avg_transaction_value)"
                 strokeWidth={2}
               />
             </LineChart>

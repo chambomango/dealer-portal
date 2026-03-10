@@ -1,6 +1,6 @@
 "use client";
 
-import { Line, LineChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -8,29 +8,27 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TrendPoint } from "@/types";
 
 const chartConfig = {
-  total_revenue: {
-    label: "Revenue",
-    color: "var(--chart-1)",
+  total_transactions: {
+    label: "Transactions",
+    color: "var(--chart-2)",
   },
 } satisfies ChartConfig;
 
-export interface TrendPoint {
-  sales_month: string;
-  total_revenue: number;
-}
-
-export function RevenueChart({ data }: { data: TrendPoint[] }) {
+export function TransactionVolumeChart({ data }: { data: TrendPoint[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-medium">Monthly Revenue</CardTitle>
+        <CardTitle className="text-lg font-medium">
+          Monthly Transaction Volume
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-70">
           <ChartContainer config={chartConfig} className="h-full w-full">
-            <LineChart data={data} accessibilityLayer>
+            <BarChart data={data} accessibilityLayer>
               <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="sales_month"
@@ -43,17 +41,19 @@ export function RevenueChart({ data }: { data: TrendPoint[] }) {
                 tickLine={false}
                 axisLine={false}
                 domain={[(dataMin: number) => dataMin * 0.95, "auto"]}
-                tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
-                label={{ value: "Revenue", angle: -90, position: "insideLeft" }}
+                label={{
+                  value: "Transactions",
+                  angle: -90,
+                  position: "insideLeft",
+                }}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
-              <Line
-                type="monotone"
-                dataKey="total_revenue"
-                stroke="var(--color-total_revenue)"
-                strokeWidth={2}
+              <Bar
+                dataKey="total_transactions"
+                fill="var(--color-total_transactions)"
+                radius={[4, 4, 0, 0]}
               />
-            </LineChart>
+            </BarChart>
           </ChartContainer>
         </div>
       </CardContent>
