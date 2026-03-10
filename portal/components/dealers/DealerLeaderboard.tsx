@@ -53,8 +53,8 @@ export function DealerLeaderboard({ dealers }: DealerLeaderboardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Dealer Leaderboard</CardTitle>
-        <div className="flex items-center gap-4 pt-2">
+        <CardTitle className="px-4 mb-2">Leaderboard</CardTitle>
+        <div className="flex justify-between gap-8 items-center px-4">
           <Select value={selectedRegion} onValueChange={setSelectedRegion}>
             <SelectTrigger className="w-48">
               <SelectValue placeholder="All Regions" />
@@ -93,7 +93,9 @@ export function DealerLeaderboard({ dealers }: DealerLeaderboardProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <DealerTable dealers={filteredDealers} />
+        <div className="px-4">
+          <DealerTable dealers={filteredDealers} />
+        </div>
       </CardContent>
     </Card>
   );

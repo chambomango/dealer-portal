@@ -35,17 +35,27 @@ export function AvgTransactionValueChart({ data }: { data: TrendPoint[] }) {
                 tickLine={false}
                 axisLine={false}
                 tickFormatter={(value) => value.slice(0, 7)}
-                label={{ value: "Month", position: "insideBottom", offset: -5 }}
+                tick={{ fontSize: 11 }}
+                height={34}
+                label={{
+                  value: "Month",
+                  position: "insideBottom",
+                  offset: -5,
+                  style: { fontSize: 12, fill: "var(--muted-foreground)" },
+                }}
               />
               <YAxis
                 tickLine={false}
                 axisLine={false}
                 domain={[(dataMin: number) => dataMin * 0.95, "auto"]}
                 tickFormatter={(value) => `$${value.toFixed(0)}`}
+                tick={{ fontSize: 11 }}
                 label={{
                   value: "Value ($)",
                   angle: -90,
                   position: "insideLeft",
+                  offset: 6,
+                  style: { fontSize: 12, fill: "var(--muted-foreground)" },
                 }}
               />
               <ChartTooltip content={<ChartTooltipContent />} />

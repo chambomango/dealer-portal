@@ -37,14 +37,28 @@ export function RevenueChart({ data }: { data: TrendPoint[] }) {
                 tickLine={false}
                 axisLine={false}
                 tickFormatter={(value) => value.slice(0, 7)}
-                label={{ value: "Month", position: "insideBottom", offset: -5 }}
+                tick={{ fontSize: 11 }}
+                height={34}
+                label={{
+                  value: "Month",
+                  position: "insideBottom",
+                  offset: -5,
+                  style: { fontSize: 12, fill: "var(--muted-foreground)" },
+                }}
               />
               <YAxis
                 tickLine={false}
                 axisLine={false}
                 domain={[(dataMin: number) => dataMin * 0.95, "auto"]}
                 tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
-                label={{ value: "Revenue", angle: -90, position: "insideLeft" }}
+                tick={{ fontSize: 11 }}
+                label={{
+                  value: "Revenue",
+                  angle: -90,
+                  position: "insideLeft",
+                  offset: 6,
+                  style: { fontSize: 12, fill: "var(--muted-foreground)" },
+                }}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Line
