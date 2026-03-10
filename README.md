@@ -1,15 +1,14 @@
 # Dealer Performance Analytics Portal
 
-Transaction ingestion →
-SQL-based ELT transformations →
-executive dashboard with AI insights.
+- Injests SQL data into raw transactions DB (simulated with seed script) →
+- SQL-based ELT transformations
+- Dashboard to display mart data and insights.
 
 ## Stack
 
-- **Database:** PostgreSQL (Neon)
+- **Database:** PostgreSQL (hosted on Neon)
 - **API:** Python FastAPI
 - **Portal:** Next.js + TypeScript + Tailwind
-- **AI:** OpenAI API
 
 ## Running Locally
 
