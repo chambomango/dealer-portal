@@ -4,6 +4,22 @@
 - SQL-based ELT transformations
 - Dashboard to display mart data and insights.
 
+## UI
+
+### Main Dashboard
+
+All-time metrics for total revenue, total transactions, etc. Monthly trend charts showing how revenue/volume/price have changed.
+
+![alt text](readme-image-3.png)
+
+![alt text](readme-image-2.png)
+
+### Dealer Leaderboard
+
+See how dealers rank for each month as well as their MoM growth, with performance flags for those under -20% growth.
+
+![alt text](readme-image-1.png)
+
 ## Stack
 
 - **Database:** PostgreSQL (hosted on Neon)
