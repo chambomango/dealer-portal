@@ -14,8 +14,9 @@
 
 ### Database
 
-SQL files are in `database/`. Run them against your Neon instance
-via the SQL Editor or psql.
+1. Setup a new PostgreSQL Database (I used [Neon](https://neon.com/) for this)
+2. Create a file named `.env` in `api/` and store the connection string from the new DB as `DATABASE_URL`. Also add `ALLOWED_ORIGINS=http://localhost:3000`
+3. SQL files are in `database/`. Run them in order (01, 02, ...) against your database (can do in Neon via the SQL Editor).
 
 ### API
 
@@ -26,6 +27,8 @@ uvicorn main:app --reload --port 8000
 ```
 
 ### Portal
+
+Create a file named `.env.local` in `portal/` with `DEALER_PORTAL_API_BASE=http://localhost:8000`
 
 ```bash
 cd portal
