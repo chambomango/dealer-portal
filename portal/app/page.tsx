@@ -41,7 +41,7 @@ export default async function Dashboard() {
   ];
 
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div className="space-y-8 mt-4 ml-10 mr-20">
       <h1 className="text-3xl font-bold">Performance Summary</h1>
 
       <section className="space-y-4">
@@ -52,10 +52,10 @@ export default async function Dashboard() {
         <KPICards kpis={kpis} />
       </section>
 
-      <section className="space-y-4">
+      <section className="space-y-8">
         <h2 className="text-lg font-semibold text-muted-foreground">Trends</h2>
         <RevenueChart data={trends} />
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-8">
           <TransactionVolumeChart data={trends} />
           <AvgTransactionValueChart data={trends} />
         </div>
