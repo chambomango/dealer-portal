@@ -2,24 +2,7 @@ import KPICards from "@/components/kpiCards";
 import { RevenueChart } from "@/components/revenueChart";
 import { TransactionVolumeChart } from "@/components/transactionVolumeChart";
 import { AvgTransactionValueChart } from "@/components/avgTransactionValueChart";
-import { OverviewData, TrendPoint } from "@/types";
-
-const API_BASE = process.env.DEALER_PORTAL_API_BASE;
-
-async function getOverview(): Promise<OverviewData> {
-  const res = await fetch(`${API_BASE}/api/metrics/overview`, {
-    cache: "no-store",
-  });
-  return res.json();
-}
-
-async function getTrends(): Promise<TrendPoint[]> {
-  const res = await fetch(`${API_BASE}/api/metrics/trends`, {
-    cache: "no-store",
-  });
-  const data = await res.json();
-  return data.trends;
-}
+import { getOverview, getTrends } from "@/lib/queries";
 
 export default async function Dashboard() {
   const [overview, trends] = await Promise.all([getOverview(), getTrends()]);
